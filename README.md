@@ -9,6 +9,8 @@ It covers:
 3. Running the PLA alignment workflow for plate or bulk data
 4. Running the PLA alignment workflow for 10x-based data
 
+For detailed code design of PLA alignment java program, please refer to this repo https://github.com/tay-lab/Prox-seq
+
 ## What This Program Does
 
 The Java program supports these core steps:
