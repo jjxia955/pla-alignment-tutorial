@@ -1,6 +1,6 @@
 # PLA Alignment Tutorial
 
-This tutorial is designed for a GitHub repository that explains how to run the PLA alignment Java program from raw sequencing files to final count matrices.
+This tutorial explains how to run the PLA alignment Java program from raw sequencing files to final count matrices.
 
 It covers:
 
@@ -31,21 +31,14 @@ You will usually need:
 
 ## Build The Program
 
-This repository already contains a Maven project in `PLA_alignment_java/`.
+This repository assumes you already have a compiled jar for the PLA alignment program.
 
-Example build:
+If you also keep the Java source in another repository, build the jar there and point the commands below to that jar.
 
-```bash
-cd PLA_alignment_java
-mvn package
-```
-
-After packaging, point the tutorial commands to the jar generated under `PLA_alignment_java/target/`.
-
-## Recommended Tutorial Layout
+## Repository Layout
 
 ```text
-tutorial/
+.
 ├── README.md
 ├── examples/
 │   ├── bulk_plate_alignment.sbatch
@@ -75,7 +68,7 @@ Notes:
 - BaseSpace often downloads each sample into its own subdirectory
 - Plate or bulk datasets may contain four lanes per sample and need concatenation before alignment
 
-The example helper script is in [tutorial/examples/preprocess_from_basespace.sh](/Users/junjie/Desktop/Alignment/tutorial/examples/preprocess_from_basespace.sh).
+The example helper script is in [examples/preprocess_from_basespace.sh](/Users/junjie/Desktop/Alignment/examples/preprocess_from_basespace.sh).
 
 ## Step 2: Preprocess FASTQ Files
 
@@ -92,9 +85,9 @@ The manifest format is:
 /absolute/path/to/sample_R1_001.fastq.gz,sample_id
 ```
 
-Use [tutorial/examples/fastq_manifest_template.csv](/Users/junjie/Desktop/Alignment/tutorial/examples/fastq_manifest_template.csv) as a template.
+Use [examples/fastq_manifest_template.csv](/Users/junjie/Desktop/Alignment/examples/fastq_manifest_template.csv) as a template.
 
-## Step 3: Plate or Bulk Workflow
+## Step 3: Plate Or Bulk Workflow
 
 This mode uses `ReadAlignmentSmartSeq`.
 
@@ -106,7 +99,7 @@ Pipeline:
 
 Example SLURM script:
 
-[tutorial/examples/bulk_plate_alignment.sbatch](/Users/junjie/Desktop/Alignment/tutorial/examples/bulk_plate_alignment.sbatch)
+[examples/bulk_plate_alignment.sbatch](/Users/junjie/Desktop/Alignment/examples/bulk_plate_alignment.sbatch)
 
 Key points:
 
@@ -115,7 +108,7 @@ Key points:
 - `CELL_BC_LIST=NONE` in `DigitalCount` exports all detected barcodes
 - `REMOVE_DUPLICATE=TRUE` removes duplicated PLA products across cells
 
-### Plate or Bulk Example Commands
+### Plate Or Bulk Example Commands
 
 ```bash
 java -jar PLA_alignment.jar ReadAlignmentSmartSeq \
@@ -152,7 +145,7 @@ Pipeline:
 
 Example SLURM script:
 
-[tutorial/examples/10x_pla_alignment.sbatch](/Users/junjie/Desktop/Alignment/tutorial/examples/10x_pla_alignment.sbatch)
+[examples/10x_pla_alignment.sbatch](/Users/junjie/Desktop/Alignment/examples/10x_pla_alignment.sbatch)
 
 Key points:
 
@@ -198,7 +191,7 @@ REMOVE_DUPLICATE=TRUE
 
 ## File Format Notes
 
-### Antibody barcode lookup table
+### Antibody Barcode Lookup Table
 
 Expected CSV structure:
 
@@ -208,9 +201,9 @@ CD3,ACGTACGT
 CD19,TGCATGCA
 ```
 
-Use [tutorial/examples/antibody_barcode_template.csv](/Users/junjie/Desktop/Alignment/tutorial/examples/antibody_barcode_template.csv) as a starting point.
+Use [examples/antibody_barcode_template.csv](/Users/junjie/Desktop/Alignment/examples/antibody_barcode_template.csv) as a starting point.
 
-### Plate or bulk FASTQ manifest
+### Plate Or Bulk FASTQ Manifest
 
 Expected CSV structure:
 
@@ -231,7 +224,7 @@ The current Java source supports these commonly used arguments:
 - `SUFFIX`: barcode suffix for 10x reference barcodes, often `-1`
 - `REMOVE_DUPLICATE`: whether to remove duplicated PLA products across cells
 
-See [tutorial/notes/command_reference.md](/Users/junjie/Desktop/Alignment/tutorial/notes/command_reference.md) for a compact command summary derived from the Java source.
+See [notes/command_reference.md](/Users/junjie/Desktop/Alignment/notes/command_reference.md) for a compact command summary.
 
 ## Outputs
 
@@ -242,11 +235,3 @@ Typical outputs include:
 - UMI-merged intermediate files
 - Final PLA count matrix
 - Duplicate export file from `DigitalCount`
-
-## Suggested Next Improvements For The GitHub Repo
-
-- Add a release jar or build instructions for generating the jar
-- Add a small toy dataset for dry-run testing
-- Add an example antibody barcode CSV from a public demo dataset
-- Add screenshots of the expected folder structure and outputs
-- Add a troubleshooting section once common user errors are known
